@@ -14,7 +14,29 @@ class GamePage extends ConsumerWidget {
     final boardStateNotifier = ref.read(boardStateProvider.notifier);
 
     return Scaffold(
-      // []
+      body: Center(
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: GridView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: boardState.boardData.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
+            itemBuilder: (context, index) {
+              final cell = boardState.boardData[index];
+              return GestureDetector(
+                onTap: () => boardStateNotifier.applyPlayerMove(index),
+                child: Container(
+                  decoration: BoxDecoration(border: Border.all()),
+                  alignment: Alignment.center,
+                  child: Text(cell, style: const TextStyle(fontSize: 32)),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
