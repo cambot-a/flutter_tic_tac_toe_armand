@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../domain/board_state_provider.dart';
 
 /// The main page of the game.
@@ -36,6 +37,9 @@ class GamePage extends ConsumerWidget {
             },
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: boardStateNotifier.reset,
       ),
     );
   }

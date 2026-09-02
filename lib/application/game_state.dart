@@ -5,6 +5,7 @@ class GameState {
     required this.boardData,
     required this.currentPlayer,
     required this.isStale,
+    this.winner,
   });
 
   /// The starting state: an empty board with player X to move first.
@@ -23,12 +24,22 @@ class GameState {
   /// Whether the board is full with no winner (a draw).
   final bool isStale;
 
+  /// The mark that has won the game (`'X'` or `'O'`), or `null` if there is
+  /// no winner yet.
+  final String? winner;
+
   /// Returns a copy of this state with the given fields replaced.
-  GameState copyWith({String? boardData, bool? currentPlayer, bool? isStale}) {
+  GameState copyWith({
+    String? boardData,
+    bool? currentPlayer,
+    bool? isStale,
+    String? winner,
+  }) {
     return GameState(
       boardData: boardData ?? this.boardData,
       currentPlayer: currentPlayer ?? this.currentPlayer,
       isStale: isStale ?? this.isStale,
+      winner: winner ?? this.winner,
     );
   }
 }
