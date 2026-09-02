@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:developer' as developer;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../application/game_state.dart';
@@ -14,6 +14,7 @@ class BoardStateProvider extends Notifier<GameState>
   @override
   GameState build() => GameState.initial();
 
-  void _applyPlayerMove(UnsignedInt index) {
+  void applyPlayerMove(int index) {
+    developer.log('Player move at index $index', name: 'BoardStateProvider');
   }
 }
