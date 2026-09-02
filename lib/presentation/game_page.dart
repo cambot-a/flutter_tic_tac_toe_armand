@@ -14,28 +14,50 @@ class GamePage extends ConsumerWidget {
     final boardState = ref.watch(boardStateProvider);
     final boardStateNotifier = ref.read(boardStateProvider.notifier);
 
+    final String statusMessage;
+    if (boardState.winner != null) {
+      statusMessage = '${boardState.winner} wins!';
+    } else if (boardState.isStale) {
+      statusMessage = "It's a draw!";
+    } else {
+      statusMessage = "${boardState.currentPlayer ? 'X' : 'O'}'s turn";
+    }
+
     return Scaffold(
       body: Center(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: GridView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: boardState.boardData.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              statusMessage,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            itemBuilder: (context, index) {
-              final cell = boardState.boardData[index];
-              return GestureDetector(
-                onTap: () => boardStateNotifier.applyPlayerMove(index),
-                child: Container(
-                  decoration: BoxDecoration(border: Border.all()),
-                  alignment: Alignment.center,
-                  child: Text(cell, style: const TextStyle(fontSize: 32)),
+            const SizedBox(height: 16),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 400, maxHeight: 400),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: boardState.boardData.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (context, index) {
+                    final cell = boardState.boardData[index];
+                    return GestureDetector(
+                      onTap: () => boardStateNotifier.applyPlayerMove(index),
+                      child: Container(
+                        decoration: BoxDecoration(border: Border.all()),
+                        alignment: Alignment.center,
+                        child: Text(cell, style: const TextStyle(fontSize: 32)),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
